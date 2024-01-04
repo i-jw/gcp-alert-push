@@ -92,7 +92,8 @@ resource "google_cloudfunctions2_function" "function" {
     timeout_seconds       = 30
     service_account_email = data.google_compute_default_service_account.default.email
     environment_variables = {
-      WEBHOOK_URL = var.alert_channel_webhook_url
+      WECHAT = var.wechat_webhook
+      DINGTALK   = var.dingtalk_webhook
     }
   }
 

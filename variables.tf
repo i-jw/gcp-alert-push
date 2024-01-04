@@ -22,7 +22,13 @@ variable "cloudfunctions_source_code_path" {
   type        = string
   default     = "./function-build/"
 }
-variable "alert_channel_webhook_url" {
-  description = "alert_channel_webhook_url"
+variable "wechat_webhook" {
+  description = "alert_channel_wechat"
   type        = string
+  default     = ""
+}
+variable "dingtalk_webhook" {
+  description = "alert_channel_dingding"
+  type        = string
+  default     = ""
 }

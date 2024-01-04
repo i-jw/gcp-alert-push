@@ -3,8 +3,9 @@ import json
 import os
 import base64
 import time
-webhookurl_env = os.environ.get("WEBHOOK_URL", "Specified environment variable WEBHOOK_URL is not set.")
-url = webhookurl_env
+wechat_webhook = os.environ.get("WECHAT", "Specified environment variable WECHAT is not set.")
+dingtalk_webhook = os.environ.get("DINGTALK", "Specified environment variable DING is not set.")
+
 def send_wechat_msg(alert_msg):
     values = {
         "msgtype":"text",
@@ -13,11 +14,11 @@ def send_wechat_msg(alert_msg):
         }
     }
     headers={'Content-Type': 'application/json'}
-    r = requests.post(url, json=values, headers=headers)
+    r = requests.post(wechat_webhook, json=values, headers=headers)
     r.encoding = 'utf-8'
     return (r.text)
 
-def send_dingding_msg(alert_msg):
+def send_dingtalk_msg(alert_msg):
     values = {
         "msgtype":"text",
         "text":{
@@ -25,7 +26,7 @@ def send_dingding_msg(alert_msg):
         }
     }
     headers={'Content-Type': 'application/json'}
-    r=requests.post(url,data=json.dumps(values),headers=headers)
+    r=requests.post(dingtalk_webhook,data=json.dumps(values),headers=headers)
     r.encoding = 'utf-8'
     return (r.text)
 
@@ -54,5 +55,9 @@ def app(event, context):
     "resource_display_name:" + resource_display_name
     print(resource_display_name)
     # print(alert_msg)
-    res = send_wechat_msg(alert_msg)
-    print(res)
+    if wechat_webhook != "":
+        res = send_wechat_msg(alert_msg)
+        print(res)
+    if dingtalk_webhook != "":
+        res = send_dingtalk_msg(alert_msg)
+        print(res)
