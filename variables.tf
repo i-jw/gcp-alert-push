@@ -11,8 +11,10 @@ variable "gcp_service_list" {
   description = "The list of apis necessary for the project"
   type        = list(string)
   default = [
-    "cloudfunctions.googleapis.com",
-    "cloudscheduler.googleapis.com"
+    "pubsub.googleapis.com",
+    "monitoring.googleapis.com",
+    "storage.googleapis.com",
+    "cloudfunctions.googleapis.com"
   ]
 }
 variable "cloudfunctions_source_code_path" {

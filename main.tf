@@ -21,7 +21,7 @@ data "google_compute_default_service_account" "default" {
 data "google_project" "project" {
 }
 
-data "archive_file" "lambda_my_function" {
+data "archive_file" "function" {
   type             = "zip"
   source_dir       = var.cloudfunctions_source_code_path
   output_file_mode = "0666"
