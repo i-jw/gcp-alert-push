@@ -8,5 +8,5 @@ pip install -r requirement.txt -t .
 ```
 ## deploy
 ```
-terraform apply --auto-approve -var="project_id=PROJECT_ID" -var="region=REGION" -var="cloudfunctions_source_code_path=PATH" -var="alert_channel_webhook_url=URL"
+terraform apply --auto-approve -var="project_id=PROJECT_ID" -var="region=REGION" -var="cloudfunctions_source_code_path=SRC_BUILD_PATH" -var="alert_channel_webhook_url=URL"
 ```
