@@ -5,8 +5,6 @@ import base64
 import time
 webhookurl_env = os.environ.get("WEBHOOK_URL", "Specified environment variable WEBHOOK_URL is not set.")
 url = webhookurl_env
-print(webhookurl_env)
-print(url)
 def send_wechat_msg(alert_msg):
     values = {
         "msgtype":"text",
@@ -34,8 +32,8 @@ def send_dingding_msg(alert_msg):
 def app(event, context):
     msg_decode = base64.b64decode(event['data']).decode('utf-8')
     msg = json.loads(msg_decode)
-    print("msg json is : ")
-    print(msg)
+    # print("msg json is : ")
+    # print(msg)
     status = msg['incident']['state']
     summary = msg['incident']['summary']
     started_at = time.ctime(msg['incident']['started_at'])
@@ -55,6 +53,6 @@ def app(event, context):
     "observed_value:" + observed_value + "\n" \
     "resource_display_name:" + resource_display_name
     print(resource_display_name)
-    print(alert_msg)
+    # print(alert_msg)
     res = send_wechat_msg(alert_msg)
     print(res)
