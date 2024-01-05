@@ -1,3 +1,4 @@
+[切换至中文](README_zh.md)
 # gcp-alert-push
 ## step 0 : setup gcloud application default login
 ```
