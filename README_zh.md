@@ -46,7 +46,7 @@ terraform apply -var-file="testing.tfvars" --auto-approve
 
 ```
 
-## step 3 : 销毁部署的资源
+## 步骤 3 : 销毁部署的资源
 ```
 terraform destroy --auto-approve
 ```
