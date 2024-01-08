@@ -44,6 +44,7 @@ resource "google_pubsub_topic_iam_binding" "binding" {
   ]
 }
 
+# google monitoring notification channel for dingtalk and wechat
 resource "google_monitoring_notification_channel" "pubsub_alert_channel" {
   display_name = "Pubsub Push Notification Channel"
   type         = "pubsub"
@@ -51,6 +52,40 @@ resource "google_monitoring_notification_channel" "pubsub_alert_channel" {
     topic = google_pubsub_topic.alert.id
   }
   force_delete = true
+}
+
+# example alert policy for cpu utilization
+resource "google_monitoring_alert_policy" "alert_policy" {
+  display_name = "CPU Utilization > 50%"
+  documentation {
+    content = "The $${metric.display_name} of the $${resource.type} $${resource.label.instance_id} in $${resource.project} has exceeded 50% for over 1 minute."
+  }
+  combiner = "OR"
+  conditions {
+    display_name = "Condition 1"
+    condition_threshold {
+      comparison      = "COMPARISON_GT"
+      duration        = "60s"
+      filter          = "resource.type = \"gce_instance\" AND metric.type = \"compute.googleapis.com/instance/cpu/utilization\""
+      threshold_value = "0.5"
+      trigger {
+        count = "1"
+      }
+    }
+  }
+
+  alert_strategy {
+    notification_channel_strategy {
+      renotify_interval          = "1800s"
+      notification_channel_names = [google_monitoring_notification_channel.pubsub_alert_channel.name]
+    }
+  }
+
+  notification_channels = [google_monitoring_notification_channel.pubsub_alert_channel.name]
+
+  user_labels = {
+    severity = "warning"
+  }
 }
 
 # function_source_gcs_bucket
@@ -92,8 +127,8 @@ resource "google_cloudfunctions2_function" "function" {
     timeout_seconds       = 30
     service_account_email = data.google_compute_default_service_account.default.email
     environment_variables = {
-      WECHAT = var.wechat_webhook
-      DINGTALK   = var.dingtalk_webhook
+      WECHAT   = var.wechat_webhook
+      DINGTALK = var.dingtalk_webhook
     }
   }
 
