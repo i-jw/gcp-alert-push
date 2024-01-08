@@ -7,10 +7,15 @@ variable "region" {
   description = "Region to set for gcp resource deploy."
   type        = string
 }
+
 variable "gcp_service_list" {
   description = "The list of apis necessary for the project"
   type        = list(string)
   default = [
+    "iam.googleapis.com",
+    "run.googleapis.com",
+    "eventarc.googleapis.com",
+    "clouddeploy.googleapis.com",
     "pubsub.googleapis.com",
     "monitoring.googleapis.com",
     "storage.googleapis.com",
